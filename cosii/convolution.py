@@ -43,6 +43,7 @@ class DFT(Transform):
         for i in range(self.n):
             self.result[i] = self.calculate(i)
                 
+   
 class FFT(Transform):
     def calculate(self, values):
         n = len(values)
@@ -78,39 +79,45 @@ class FFT(Transform):
             for i in range(self.n):
                 self.result[i] /= self.n
 
-def main():
-   
-   func_values = []
-   for i in range(8):
-       func_values.append(complex(cos(i)+sin(i), 0))
-       print func_values[i]
-       
-       
-   fast = FFT(func_values)
-   fast.execute()
-   fast.print_values()
-   fast.fill_spectres()
-   
-   subplot(211)
-   plot(range(0.0, 2*pi*7, 2*pi), fast.amp, 'go')
-   grid(True)
-   subplot(212)
-   plot(range(0.0, 2*pi*7, 2*pi), fast.phase, 'r.')
-   grid(True)
-   show()
-"""        
-   x = arange(0.0, 8.0, 0.1)
-   subplot(211)
-   plot(x, cos(x)+sin(x), range(8), fast.values, 'go')
-   grid(True)
-   title('Signal:')
-   
-   subplot(212)
-   title('Image:')
-   plot(range(0.0, 2*pi*7, 2*pi), fast.result, 'r--', range(0.0, 2*pi*7, 2*pi), fast.result, 'go')
-   grid(True)
+def convolution(x_values, y_values):
+    fft_x = FFT(x_values)
+    fft_x.execute()
+    fft_y = FFT(y_values)
+    fft_y.execute()
+    z_values = []
+    for i in range(len(x_values)):
+        z_values.append(fft_x.result[i] * fft_y.result[i])
+        
+    result = FFT(z_values, -1)
+    result.execute()
+    result.print_values()
+    return result
 
-   show()
-"""
+def main():
+    x,y = [], []
+    for i in range(8):
+        x.append(complex(cos(i), 0))
+        y.append(complex(sin(i), 0))
+    
+    z = convolution(x,y)
+
+
+    x = arange(0.0, 8.0, 0.1)
+    subplot(311)
+    plot(x, cos(x))
+    grid(True)
+    title('y=cos(x)')
+   
+    subplot(312)
+    title('z=sin(x)')
+    plot(x, sin(x))
+    grid(True)
+    
+    subplot(313)
+    title('Convolution:')
+    plot(range(0.0, 2*pi*7, 2*pi), z.result, 'r--')
+
+    show()
+
 if __name__ == "__main__":
     main()
