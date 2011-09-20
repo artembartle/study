@@ -79,19 +79,24 @@ class FFT(Transform):
             for i in range(self.n):
                 self.result[i] /= self.n
 
-def convolution(x_values, y_values):
+def convolution(x_values, y_values, correllation = 0):
     fft_x = FFT(x_values)
     fft_x.execute()
     fft_y = FFT(y_values)
     fft_y.execute()
     z_values = []
-    for i in range(len(x_values)):
-        z_values.append(fft_x.result[i] * fft_y.result[i])
+    if correllation:
+        for i in range(len(x_values)):
+            z_values.append(fft_x.result[i].conjugate() * fft_y.result[i])
+    else:
+        for i in range(len(x_values)):
+            z_values.append(fft_x.result[i] * fft_y.result[i])
         
     result = FFT(z_values, -1)
     result.execute()
     result.print_values()
     return result
+    
 
 def main():
     x,y = [], []
@@ -99,23 +104,25 @@ def main():
         x.append(complex(cos(i), 0))
         y.append(complex(sin(i), 0))
     
-    z = convolution(x,y)
-
+    conv_result = convolution(x,y)
+    correl_result = convolution(x,y, 1)
 
     x = arange(0.0, 8.0, 0.1)
-    subplot(311)
+    subplot(411)
     plot(x, cos(x))
     grid(True)
-    title('y=cos(x)')
    
-    subplot(312)
-    title('z=sin(x)')
+    subplot(412)
     plot(x, sin(x))
     grid(True)
     
-    subplot(313)
-    title('Convolution:')
-    plot(range(0.0, 2*pi*7, 2*pi), z.result, 'r--')
+    subplot(413)
+    grid(True)
+    plot(range(0.0, 2*pi*7, 2*pi), conv_result.result, 'r--')
+    
+    subplot(414)
+    grid(True)
+    plot(range(0.0, 2*pi*7, 2*pi), correl_result.result, 'r--')
 
     show()
 
