@@ -91,19 +91,36 @@ def main():
    fast.print_values()
    fast.fill_spectres()
    
-   subplot(211)
+   discrete = DFT(func_values)
+   discrete.execute()
+   discrete.print_values()
+   
+   fast_revers = FFT(fast.result, -1)
+   fast_revers.execute()
+   fast_revers.print_values()
+   
+   x = arange(0.0, 8.0, 0.1)
+   subplot(511)
+   plot(x, cos(x)+sin(x), range(8), fast.values, 'go')
+   grid(True)
+   
+   subplot(512)
+   plot(range(0.0, 2*pi*7, 2*pi), fast.result, 'r--', range(0.0, 2*pi*7, 2*pi), fast.result, 'go')
+   grid(True)
+   
+   subplot(513)
+   plot(range(8), fast_revers.result, 'r--', range(8), fast_revers.result, 'go')
+   grid(True)   
+   
+   subplot(514)
    plot(range(0.0, 2*pi*7, 2*pi), fast.amp, 'go')
    grid(True)
-   subplot(212)
+   subplot(515)
    plot(range(0.0, 2*pi*7, 2*pi), fast.phase, 'r.')
    grid(True)
    show()
 """        
-   x = arange(0.0, 8.0, 0.1)
-   subplot(211)
-   plot(x, cos(x)+sin(x), range(8), fast.values, 'go')
-   grid(True)
-   title('Signal:')
+   
    
    subplot(212)
    title('Image:')
