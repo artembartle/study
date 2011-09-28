@@ -13,12 +13,14 @@ import time
 
 
 def main():
-    send_file = open("server.py", "r")
+    send_file = open("1.c", "r")
     data = send_file.read()
+    send_file.close()
     data_size = len(data)
-    
+    print data_size
+
     HOST = ''           
-    PORT = 1026
+    PORT = 1049
     buf_size = 1024
     
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -26,25 +28,30 @@ def main():
     s.listen(1)
     conn, addr = s.accept()
     while True:    
-        conn.send(data_size)
+        conn.send(repr(data_size))
         if conn.recv(2) == "ok":
             while data_size:
                 print data_size
                 buf_size = min(buf_size, data_size)
-                buf = send_file.read(buf_size)
+		buf = data[:buf_size]
                 try:
-                    print conn.sendall(repr(buf))
-                    print repr(buf)
+                    print conn.send(buf)
+                    print buf
+		except socket.herror, e:
+		    print "sdfsd"	
+		except socket.gaierror, e:
+		    print "gsdfgdf"	
                 except socket.error, e:
                     print "Error sending data: %s" % e
+		except socket.timeout, e:
+		    print "Connection timeout: %s" % e
                 else:
-                    send_file.seek(buf_size, 1)
-                    print send_file.tell()
+		    data =  data[buf_size:]
                     data_size -= buf_size
-#                    time.sleep(3)
+		    time.sleep(1)
+	    break
     
     conn.close()
-    send_file.close()
 
 
 if __name__ == '__main__':
