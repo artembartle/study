@@ -7,52 +7,41 @@ Created by bartle on 2011-09-26.
 Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 """
 
-import sys
 import socket
+import os
 import time
 
 
 def main():
-    send_file = open("1.c", "r")
-    data = send_file.read()
-    send_file.close()
-    data_size = len(data)
-    print data_size
-
+    
     HOST = ''           
-    PORT = 1049
-    buf_size = 1024
+    PORT = 1051
+    FILE_NAME = "1.c"
+    buf_size = 1024    
     
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((HOST, PORT))
     s.listen(1)
     conn, addr = s.accept()
-    while True:    
-        conn.send(repr(data_size))
-        if conn.recv(2) == "ok":
-            while data_size:
-                print data_size
-                buf_size = min(buf_size, data_size)
-		buf = data[:buf_size]
-                try:
-                    print conn.send(buf)
-                    print buf
-		except socket.herror, e:
-		    print "sdfsd"	
-		except socket.gaierror, e:
-		    print "gsdfgdf"	
-                except socket.error, e:
-                    print "Error sending data: %s" % e
-		except socket.timeout, e:
-		    print "Connection timeout: %s" % e
-                else:
-		    data =  data[buf_size:]
-                    data_size -= buf_size
-		    time.sleep(1)
-	    break
+    
+    send_file = open(FILE_NAME, "r")
+    file_size = os.path.getsize(FILE_NAME)
+    conn.send(str(file_size) + ' ' + FILE_NAME)
+    if conn.recv(2) == "ok":
+        while file_size:
+            buf_size = min(buf_size, file_size)
+            buf = send_file.read(buf_size)
+            byte_sended = conn.send(buf)
+            if byte_sended != buf_size:
+                print "error conn.send(buf) != buf_size:"
+                send_file.seek(-buf_size, 1)
+            else:
+                file_size -= buf_size
+                time.sleep(0.5)
     
     conn.close()
-
+    s.close()
+    send_file.close()
 
 if __name__ == '__main__':
 	main()
