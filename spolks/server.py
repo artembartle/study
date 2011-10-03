@@ -15,7 +15,7 @@ import time
 def main():
     
     HOST = ''           
-    PORT = 1051
+    PORT = 1052
     FILE_NAME = "1.c"
     buf_size = 1024    
     
@@ -37,6 +37,7 @@ def main():
                 send_file.seek(-buf_size, 1)
             else:
                 file_size -= buf_size
+                print "Left %d bytes" % file_size
                 time.sleep(0.5)
     
     conn.close()
