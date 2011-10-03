@@ -10,7 +10,7 @@ Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 import socket
 import os
 import time
-
+import random
 
 def main():
     
@@ -28,18 +28,21 @@ def main():
     file_size = os.path.getsize(FILE_NAME)
     conn.send(str(file_size) + ' ' + FILE_NAME)
     if conn.recv(2) == "ok":
+        total_byte_sended = 0
         while file_size:
             buf_size = min(buf_size, file_size)
             buf = send_file.read(buf_size)
             byte_sended = conn.send(buf)
             byte_recieved = int(conn.recv(1024))
+            conn.send(str(random.random()), socket.MSG_OOB)
             if byte_sended != buf_size or byte_sended != byte_recieved:
                 print "error conn.send(buf) != buf_size:"
                 send_file.seek(-buf_size, 1)
                 time.sleep(0.5)
             else:
                 file_size -= buf_size
-                print "Left %d bytes" % file_size
+                total_byte_sended += byte_sended
+                print "Sended %d bytes" % total_byte_sended
                 time.sleep(0.5)
     
     conn.close()

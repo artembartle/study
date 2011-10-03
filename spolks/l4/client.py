@@ -35,6 +35,8 @@ def main():
     while True:
         buf = s.recv(buf_size)
         s.send(repr(len(buf)))
+        rand = s.recv(1024, socket.MSG_OOB)
+        print rand
         if buf == '':
             break
         else:
