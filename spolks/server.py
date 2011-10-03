@@ -32,9 +32,11 @@ def main():
             buf_size = min(buf_size, file_size)
             buf = send_file.read(buf_size)
             byte_sended = conn.send(buf)
-            if byte_sended != buf_size:
+            byte_recieved = int(conn.recv(1024))
+            if byte_sended != buf_size || byte_sended != byte_recieved:
                 print "error conn.send(buf) != buf_size:"
                 send_file.seek(-buf_size, 1)
+                time.sleep(0.5)
             else:
                 file_size -= buf_size
                 print "Left %d bytes" % file_size

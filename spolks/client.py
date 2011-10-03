@@ -34,6 +34,7 @@ def main():
     bytes_left = file_size
     while True:
         buf = s.recv(buf_size)
+        s.send(repr(len(buf)))
         if buf == '':
             break
         else:

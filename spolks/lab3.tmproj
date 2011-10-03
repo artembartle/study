@@ -3,22 +3,22 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>server.py</string>
+	<string>client.py</string>
 	<key>documents</key>
 	<array>
 		<dict>
 			<key>filename</key>
 			<string>client.py</string>
 			<key>lastUsed</key>
-			<date>2011-09-28T07:33:51Z</date>
+			<date>2011-10-03T12:41:48Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>server.py</string>
 			<key>lastUsed</key>
-			<date>2011-09-28T07:33:51Z</date>
-			<key>selected</key>
-			<true/>
+			<date>2011-10-03T12:41:48Z</date>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
@@ -30,28 +30,28 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>26</integer>
+				<integer>30</integer>
 				<key>line</key>
-				<integer>19</integer>
+				<integer>36</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>1</integer>
+			<integer>22</integer>
 		</dict>
 		<key>server.py</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>28</integer>
+				<integer>24</integer>
 				<key>line</key>
-				<integer>30</integer>
+				<integer>40</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>13</integer>
+			<integer>21</integer>
 		</dict>
 	</dict>
 	<key>openDocuments</key>
@@ -62,6 +62,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{421, 63}, {645, 622}}</string>
+	<string>{{412, 63}, {645, 622}}</string>
 </dict>
 </plist>
