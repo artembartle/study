@@ -15,7 +15,7 @@ import random
 def main():
     
     HOST = ''           
-    PORT = 1052
+    PORT = 1053
     FILE_NAME = "1.c"
     buf_size = 1024    
     
@@ -23,19 +23,21 @@ def main():
     s.bind((HOST, PORT))
     s.listen(1)
     conn, addr = s.accept()
-    
     send_file = open(FILE_NAME, "r")
     file_size = os.path.getsize(FILE_NAME)
     conn.send(str(file_size) + ' ' + FILE_NAME)
+    total_byte_sended = 0
     if conn.recv(2) == "ok":
-        total_byte_sended = 0
         while file_size:
             buf_size = min(buf_size, file_size)
             buf = send_file.read(buf_size)
             byte_sended = conn.send(buf)
-            byte_recieved = int(conn.recv(1024))
-            conn.send(str(random.random()), socket.MSG_OOB)
+            data = conn.recv(1024)
+            if data == "":
+                continue
+            byte_recieved = int(data)
             if byte_sended != buf_size or byte_sended != byte_recieved:
+                print byte_sended, byte_recieved
                 print "error conn.send(buf) != buf_size:"
                 send_file.seek(-buf_size, 1)
                 time.sleep(0.5)
@@ -43,8 +45,14 @@ def main():
                 file_size -= buf_size
                 total_byte_sended += byte_sended
                 print "Sended %d bytes" % total_byte_sended
+                try:
+                    print conn.send('!', socket.MSG_OOB)
+                except socket.error, why:
+                    print why[0]
+                else:
+                    print "oob succesfully sended"
                 time.sleep(0.5)
-    
+
     conn.close()
     s.close()
     send_file.close()

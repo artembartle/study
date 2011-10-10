@@ -7,16 +7,36 @@ Created by bartle on 2011-09-26.
 Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 """
 import socket
-import os.path
+import os
+import errno
+import signal
+import fcntl
+import time
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+bytes_recieved = 0
+
+def handler(signum, frame):
+    print "SIGURG!!!"
+    try:
+        oob_data = s.recv(1, socket.MSG_OOB)
+    except socket.error, why:
+        print os.strerror(why[0]) 
+    else:
+        print "oob_data: %s" % oob_data
+        print "Recieved %d bytes" % bytes_recieved
+        time.sleep(0.5)
 
 
 def main():
     HOST = ''
-    PORT = 1052
+    PORT = 1053
     buf_size = 1024
+    global bytes_recieved
     
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((HOST, PORT))
+    signal.signal(signal.SIGURG, handler)
+    fcntl.fcntl(s.fileno(), fcntl.F_SETOWN, os.getpid())
     
     message = s.recv(1024) # [size_of_file] + ' ' + [file_name]
     message_list = message.split(' ')
@@ -31,19 +51,19 @@ def main():
             
     recv_file = open(file_name, "a")
     s.send("ok")
-    bytes_left = file_size
     while True:
-        buf = s.recv(buf_size)
-        s.send(repr(len(buf)))
-        rand = s.recv(1024, socket.MSG_OOB)
-        print rand
-        if buf == '':
-            break
+        try:
+            buf = s.recv(buf_size)
+        except socket.error, why:
+            print os.strerror(why[0]) 
         else:
-            bytes_left -= len(buf)
-            print "Left %d bytes" % bytes_left
-            recv_file.write(buf)
-    
+            if buf == '':
+                break
+            else:
+                s.send(repr(len(buf)))
+                recv_file.write(buf)
+                bytes_recieved += len(buf)
+        
     recv_file.close()
     s.close()
 
