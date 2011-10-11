@@ -10,7 +10,7 @@
 			<key>filename</key>
 			<string>client.py</string>
 			<key>lastUsed</key>
-			<date>2011-10-11T07:13:51Z</date>
+			<date>2011-10-11T08:11:17Z</date>
 			<key>selected</key>
 			<true/>
 		</dict>
@@ -18,7 +18,7 @@
 			<key>filename</key>
 			<string>server.py</string>
 			<key>lastUsed</key>
-			<date>2011-10-10T12:00:39Z</date>
+			<date>2011-10-11T08:11:17Z</date>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
@@ -30,54 +30,38 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>4</integer>
-				<key>line</key>
 				<integer>35</integer>
+				<key>line</key>
+				<integer>18</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>33</integer>
+			<integer>10</integer>
 		</dict>
 		<key>server.py</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>48</integer>
+				<integer>28</integer>
 				<key>line</key>
-				<integer>21</integer>
+				<integer>29</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>17</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>45</integer>
-				<key>line</key>
-				<integer>21</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>55</integer>
-				<key>line</key>
-				<integer>21</integer>
-			</dict>
+			<integer>9</integer>
 		</dict>
 	</dict>
 	<key>openDocuments</key>
 	<array>
-		<string>server.py</string>
 		<string>client.py</string>
+		<string>server.py</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{0, 0}, {1070, 778}}</string>
+	<string>{{1350, -55}, {1070, 778}}</string>
 </dict>
 </plist>
