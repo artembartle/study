@@ -46,7 +46,7 @@ def main():
                 total_byte_sended += byte_sended
                 print "Sended %d bytes" % total_byte_sended
                 try:
-                    print conn.send('!', socket.MSG_OOB)
+                    print conn.send(str(random.randint(0,9)), socket.MSG_OOB)
                 except socket.error, why:
                     print why[0]
                 else:
